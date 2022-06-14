@@ -17,9 +17,10 @@ app.use('/', express.static(path.join(__dirname, 'static')))
 app.use(bodyParser.json())
 
 app.post('/api/change-password', async (req, res) => {
-    const { token, newpassword: plainTextPassword } = req.body
-
+    const { token, newPassword: plainTextPassword } = req.body
+    
     if (!plainTextPassword || typeof plainTextPassword !== 'string') {
+        
         return res.json({ status: 'error', error: 'Invalid Password'})
     }
 
@@ -42,11 +43,9 @@ app.post('/api/change-password', async (req, res) => {
         )
         res.json({ status: 'ok' })
     } catch(error){
+        console.log(error)
         res.json({ status: 'error', error: 'something has went wrong is the verification process' })
     }
-    
-    res.json({ status: 'ok' })
-    
 })
 
 app.post('/api/login', async (req, res) => {
@@ -61,7 +60,6 @@ app.post('/api/login', async (req, res) => {
 
     if(await bcrypt.compare(password, user.password)){
         // the username, password combination is successful
-
         const token = jwt.sign({ 
             id: user._id, 
             username: user.username   
@@ -131,6 +129,7 @@ app.post('/api/register', async (req, res) => {
 
     //Always hash passwords especially when managing them yourself
     res.json({ status: 'ok'})
+    
 })
 
 app.listen(process.env.PORT, () => {
