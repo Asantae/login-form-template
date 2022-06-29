@@ -78,7 +78,7 @@ app.post('/api/login', async (req, res) => {
 // 1. Client proves itself somehow on the request (JWT)
 // 2. Client-Server share a secret (cookie)
 
-app.post('/api/register', async (req, res) => {
+app.post('/register', async (req, res) => {
     console.log(req.body)
     //Analysts
     //Scripts reading databases
